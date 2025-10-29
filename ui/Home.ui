@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1129</width>
+    <height>919</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(119, 118, 123);</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="TConveyorPanelEx" name="tconveyorpanelex">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>210</y>
+      <width>204</width>
+      <height>93</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="TConveyorPanel" name="tconveyorpanel">
+    <property name="geometry">
+     <rect>
+      <x>592</x>
+      <y>320</y>
+      <width>204</width>
+      <height>93</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="DosatorPanel" name="dosatorpanel">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>40</y>
+      <width>140</width>
+      <height>60</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel {
+	background-color: rgb(255, 255, 255);
+}
+QLabel[style=&quot;weight&quot;]
+{
+	font-size: 20pt;
+	font-weight: bold;
+}
+QLabel:disabled[style=&quot;target&quot;]
+{
+	font-size: 18pt;
+	font-weight: bold;
+	color: purple;
+}
+QLabel[style=&quot;small&quot;]
+{
+	font-size: 9pt;
+}
+QGroupBox
+{
+	border-radius: 4px;
+	border: 1px solid red;
+	font-size: 7pt;
+	background-color: rgb(255, 255, 255);
+	font-weight: bold;
+}
+ QGroupBox::title {
+     subcontrol-origin: padding;
+     subcontrol-position: top center; /* position at the top center */
+     padding: 0px 3px;
+	background: none;
+}
+</string>
+    </property>
+   </widget>
+   <widget class="DoserPanel" name="doserpanel">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>40</y>
+      <width>130</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel {
+	background-color: rgb(222, 221, 218);
+}
+
+QLabel[style=&quot;target&quot;]
+{
+	font-size: 18pt;
+	font-weight: bold;
+   color: black;
+}
+QWidget:enabled QLabel:enabled[style=&quot;target&quot;]
+{
+	font-size: 18pt;
+	font-weight: bold;
+	color: purple;
+}
+QLabel[style=&quot;small&quot;]
+{
+	font-size: 9pt;
+}
+QGroupBox
+{
+	border-radius: 4px;
+	border: 1px solid red;
+	background-color: rgba(255, 255, 255, 191);
+	font-size: 9pt;
+	font-weight: bold;
+}
+ QGroupBox::title {
+     subcontrol-origin: padding;
+     subcontrol-position: top center; /* position at the top center */
+     padding: 0px 3px;
+	background: none;
+}
+</string>
+    </property>
+   </widget>
+   <widget class="MixerPanel" name="mixerpanel">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>440</y>
+      <width>229</width>
+      <height>71</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>TConveyorPanelEx</class>
+   <extends>QGroupBox</extends>
+   <header>concreteui.tconveyorpanelex</header>
+  </customwidget>
+  <customwidget>
+   <class>TConveyorPanel</class>
+   <extends>QGroupBox</extends>
+   <header>concreteui.tconveyorpanel</header>
+  </customwidget>
+  <customwidget>
+   <class>DosatorPanel</class>
+   <extends>QGroupBox</extends>
+   <header>concreteui.dosatorpanel</header>
+  </customwidget>
+  <customwidget>
+   <class>DoserPanel</class>
+   <extends>QGroupBox</extends>
+   <header>concreteui.doserpanel</header>
+  </customwidget>
+  <customwidget>
+   <class>MixerPanel</class>
+   <extends>QGroupBox</extends>
+   <header>concreteui.mixerpanel</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

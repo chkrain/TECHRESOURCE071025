@@ -50,9 +50,9 @@ CEMENT_GATECLOSE;DI;7;8;Затвор цемента закрыт
 
 BUNKER1_GATECLOSE;DI;8;1;Затвор бункера ИМ закрыт 1
 BUNKER2_GATECLOSE;DI;8;2;Затвор бункера ИМ закрыт 2
-MXER_ISON;DI;8;3;Смеситель включен 
+MIXER_ISON;DI;8;3;Смеситель включен 
 MIXER_CLOSE;DI;8;4;Смеситель закрыт
-MXER_ISOPEN;DI;8;5;Смеситель открыт 
+MIXER_ISOPEN;DI;8;5;Смеситель открыт 
 MIN1;DI;8;6;Датчик уровня силоса MIN 1
 MAX1;DI;8;7;Датчик уровня силоса MAX 1
 MIN2;DI;8;8;Датчик уровня силоса MIN 2
