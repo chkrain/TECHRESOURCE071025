@@ -56,12 +56,10 @@ mixer = Mixer( gate=mixer_gate, motor=mixer_motor, go=False, count=1)
 air1 = BLINK(enable=plc.AUGER1_ON, q=plc.AIR1_ON)
 air2 = BLINK(enable=plc.AUGER2_ON, q=plc.AIR2_ON)
 
-# Насосы ХД
+# Насосы
 pump1 = Transport(ison=plc.PUMP1_ISON, power=plc.PUMP1_ON)
 pump2 = Transport(ison=plc.PUMP2_ISON, power=plc.PUMP2_ON)
-
-# Насос воды  
-water_pump = Transport(power=plc.PUMPWATER_ON)
+water_pump = Transport(power=plc.PUMPWATER_ON, ison=plc.WATERPUMP_ISON)
 
 # Шнеки
 auger1 = Transport(ison=plc.AUGER1_ISON, power=plc.AUGER1_ON)
