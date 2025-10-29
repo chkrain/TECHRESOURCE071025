@@ -1,0 +1,9 @@
+[submodule "concrete.git"]
+	path = concrete.git
+	url = https://github.com/vlinnik/concrete.git
+[submodule "concretetheme.git"]
+	path = concretetheme.git
+	url = https://github.com/vlinnik/concretetheme.git
+[submodule "pyplc.git"]
+	path = pyplc.git
+	url = https://github.com/vlinnik/pyplc.git

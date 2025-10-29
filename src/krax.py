@@ -67,16 +67,6 @@ water_pump = Transport(power=plc.PUMPWATER_ON)
 auger1 = Transport(ison=plc.AUGER1_ISON, power=plc.AUGER1_ON)
 auger2 = Transport(ison=plc.AUGER2_ISON, power=plc.AUGER2_ON)
 
-# # бункер цемента
-# bunker1.sp = 100  # доза 100 кг
-# bunker1.go = True
-
-# # затвор воды  
-# water_gate.simple(pt=5)  # открыть на 5 сек
-
-# # смеситель
-# mixer_motor.remote(True)  # включить двигатель
-
 instances = [
     water_weight,
     hd_weight, 
