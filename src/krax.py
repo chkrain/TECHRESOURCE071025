@@ -9,7 +9,7 @@ from sys import platform
 from pyplc.ld import LD
 from collections import namedtuple
 
-factory = Factory()
+factory = Factory()     
 
 water_weight = Weight(raw=plc.WATER_WEIGHT, mmax=1000)
 hd_weight = Weight(raw=plc.HD_WEIGHT, mmax=1000) 
@@ -65,6 +65,35 @@ water_pump = Transport(power=plc.PUMPWATER_ON, ison=plc.WATERPUMP_ISON)
 auger1 = Transport(ison=plc.AUGER1_ISON, power=plc.AUGER1_ON)
 auger2 = Transport(ison=plc.AUGER2_ISON, power=plc.AUGER2_ON)
 
+factory.on_emergency = tuple(x.emergency for x in (
+    cement_dosator, hd_dosator, water_dosator, mixer, 
+    conv1, conv2, bunker1, bunker2,
+    water_gate, hd_gate, cement_gate, mixer_gate
+))
+
+ready_1 = Readiness(rails=( 
+    cement_dosator, hd_dosator, water_dosator,
+    bunker1, bunker2
+))
+
+loaded_1 = Loaded(rails=(
+    cement_dosator, hd_dosator, water_dosator,
+    bunker1, bunker2  
+))
+
+manager_1 = Manager(
+    collected=ready_1,
+    loaded=loaded_1, 
+    mixer=mixer,
+    dosators=(
+        cement_dosator, 
+        hd_dosator, 
+        water_dosator
+    )
+)
+
+factory.on_emergency += (manager_1.emergency, )
+
 instances = [
     water_weight,
     hd_weight, 
@@ -94,7 +123,28 @@ instances = [
     pump2, 
     water_pump,
     auger1,
-    auger2
+    auger2,
+    ready_1,
+    loaded_1, 
+    manager_1
 ]
+
+if platform == "linux":
+    from concrete.imitation import iMOTOR, iGATE, iVALVE, iWEIGHT
+    
+    # Имитация оборудования
+    imotor_1 = iMOTOR(simple=True, on=plc.MIXER_ON, ison=plc.MIXER_ISON)
+    igate_1 = iGATE(open=plc.MIXER_OPEN, opened=plc.MIXER_ISOPEN, closed=plc.MIXER_CLOSE)
+    icement_valve = iVALVE(open=plc.CEMENT_OPEN, closed=plc.CEMENT_CLOSE)
+    ihd_valve = iVALVE(open=plc.HD_OPEN, closed=plc.HD_CLOSE)
+    iwater_valve = iVALVE(open=plc.WATER_OPEN, closed=plc.WATER_CLOSE)
+    
+    # Имитация весов
+    icement_weight = iWEIGHT(speed=100, loading=plc.BUNKER1_OPEN, unloading=plc.CEMENT_OPEN, q=plc.CEMENT_WEIGHT)
+    ihd_weight = iWEIGHT(speed=100, loading=plc.BUNKER2_OPEN, unloading=plc.HD_OPEN, q=plc.HD_WEIGHT)
+    iwater_weight = iWEIGHT(speed=100, loading=lambda: plc.WATER_OPEN, unloading=plc.WATER_OPEN, q=plc.WATER_WEIGHT)
+    
+    instances += [imotor_1, igate_1, icement_valve, ihd_valve, iwater_valve, 
+                  icement_weight, ihd_weight, iwater_weight]
 
 plc.run(instances=instances, ctx=globals())
