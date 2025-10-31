@@ -1,19 +1,19 @@
 from pyplc.platform import plc
 from pyplc.utils.misc import BLINK
 from concrete import Factory,Motor, Mixer, MSGate as Gate,Lock,Transport,Weight,Container,Dosator,Manager,Readiness,Loaded
-from concrete.elevator import ElevatorGeneric as Elevator
 from concrete.vibrator import Vibrator,UnloadHelper
-from concrete.imitation import iMOTOR,iGATE,iELEVATOR,iVALVE,iWEIGHT
 from concrete.transport import Gear
 from sys import platform
-from pyplc.ld import LD
 from collections import namedtuple
 
 factory = Factory()     
 
 water_weight = Weight(raw=plc.WATER_WEIGHT, mmax=1000)
+
 hd_weight = Weight(raw=plc.HD_WEIGHT, mmax=1000) 
+
 cement_weight = Weight(raw=plc.CEMENT_WEIGHT, mmax=1000)
+
 conv_weight = Weight(raw=plc.CONV_WEIGHT, mmax=1000)
 
 bunker1 = Container(m=lambda: cement_weight.m, out=plc.BUNKER1_OPEN, closed=plc.BUNKER1_GATECLOSE, max_sp=1000)
@@ -137,6 +137,7 @@ if platform == "linux":
     igate_1 = iGATE(open=plc.MIXER_OPEN, opened=plc.MIXER_ISOPEN, closed=plc.MIXER_CLOSE)
     icement_valve = iVALVE(open=plc.CEMENT_OPEN, closed=plc.CEMENT_CLOSE)
     ihd_valve = iVALVE(open=plc.HD_OPEN, closed=plc.HD_CLOSE)
+    ibelt1 = iMOTOR(simple=True, on=plc.CONV1_ON, ison=plc.BELT1)
     iwater_valve = iVALVE(open=plc.WATER_OPEN, closed=plc.WATER_CLOSE)
     
     # Имитация весов
