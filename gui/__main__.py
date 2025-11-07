@@ -3,6 +3,7 @@ from pysca import app
 import pysca
 from pysca.device import PYPLC
 import pygui.navbar as navbar
+from concrete6 import concrete6 
 
 def main():
     import argparse
@@ -20,10 +21,12 @@ def main():
     
     Home = app.window('ui/Home.ui')
     # с использованием navbar
-    # navbar.append(Home)       
-    # navbar.instance.show( )
+    navbar.append(Home)       
+    navbar.instance.show( )
+    concrete6.setMainWindow(navbar.instance)
     # или 
-    Home.show()               
+
+    # Home.show()               
     
     dev.start(100)
     app.start( ctx = globals() )

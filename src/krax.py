@@ -1,151 +1,78 @@
 from pyplc.platform import plc
-from pyplc.utils.misc import BLINK
-from concrete import Factory,Motor, Mixer, MSGate as Gate,Lock,Transport,Weight,Container,Dosator,Manager,Readiness,Loaded
-from concrete.vibrator import Vibrator,UnloadHelper
-from concrete.transport import Gear
 from sys import platform
+from concrete import Factory,Motor,MSGate,Container,Dosator,Weight,Mixer,Readiness,Loaded,Manager,Lock, Transport
+from concrete.vibrator import Vibrator
+from concrete.container import Retarder
+from concrete.imitation import iGATE,iVALVE,iMOTOR,iWEIGHT
 from collections import namedtuple
+from pyplc.utils.misc import TOF,TON, BLINK
+from pyplc.utils.trig import RTRIG
+from pyplc.utils.latch import RS
+from pyplc.pou import POU
 
-factory = Factory()     
+if platform=='vscode':
+    PLC = namedtuple('PLC', ('WATER_M', 'HD_M', 'CEMENT_M', 'CONV_M', 'I_MIXER', 'WATER_OPEN', 'HD_OPEN', 'CEMENT_OPEN', 'WATER_GATE', 'HD1_GATE', 'HD2_GATE', 'CEMENT_GATE', 'BUNKER1_OPEN', 'BUNKER2_OPEN', 'AIR1_ON', 'AIR2_ON', 'VIB1_ON', 'VIB2_ON', 'VIB3_ON', 'VIB4_ON', 'VIB5_ON', 'VIB6_ON', 'MIXER_ON', 'MIXER_OFF', 'PUMP1_ON', 'PUMP2_ON', 'MIXER_OPEN', 'CONV1_ON', 'CONV2_ON', 'CALL_ON', 'PUMPWATER_ON', 'AUGER1_ON', 'AUGER2_ON', 'WATER_CLOSED', 'HD_CLOSED', 'CEMENT_CLOSED', 'CONV1_ISON', 'CONV2_ISON', 'WATER_GATECLOSE', 'HD_GATECLOSE', 'CEMENT_GATECLOSE', 'BUNKER1_GATECLOSE', 'BUNKER2_GATECLOSE', 'MIXER_ISON', 'MIXER_CLOSED', 'MIXER_OPENED', 'MIN1', 'MAX1', 'MIN2', 'MAX2', 'AUGER1_ISON', 'AUGER2_ISON', 'PUMP1_ISON', 'PUMP2_ISON', 'BELT1', 'BELT2', 'WATERPUMP_ISON', 'SUPPLY_FAIL', 'EMERGENCY'))
+    plc = PLC()
 
-water_weight = Weight(raw=plc.WATER_WEIGHT, mmax=1000)
+factory_1 = Factory( )
+motor_1 = Motor(ison=plc.MIXER_ISON,powered=plc.MIXER_ON)
+gate_1 = MSGate(closed = plc.MIXER_CLOSED, opened=plc.MIXER_OPENED,open=plc.MIXER_OPEN)
 
-hd_weight = Weight(raw=plc.HD_WEIGHT, mmax=1000) 
+cement_m_1 = Weight(raw = plc.CEMENT_M,mmax=1500)
+water_m_1 = Weight(raw = plc.WATER_M, mmax=500)
+hd_m_1 = Weight(raw = plc.HD_M, mmax=15)
+conv_m_1 = Weight(raw=plc.CONV_M,mmax=8000)
 
-cement_weight = Weight(raw=plc.CEMENT_WEIGHT, mmax=1000)
+silage_1 = Container(m=lambda: cement_m_1.m, closed=~plc.AUGER1_ISON,out=plc.AUGER1_ON, lock=Lock(key=~plc.CEMENT_GATECLOSE), max_sp=500 )
+silage_2 = Container(m=lambda: cement_m_1.m, closed=~plc.AUGER2_ISON,out=plc.AUGER2_ON, lock=Lock(key=~plc.CEMENT_GATECLOSE), max_sp=500 )
+dcement_1 = Dosator(m=lambda: cement_m_1.m,closed=plc.CEMENT_GATECLOSE,out=plc.CEMENT_OPEN,containers=(silage_1, silage_2),lock=Lock(key=lambda: plc.AUGER1_ON or plc.AUGER2_ON or not plc.MIXER_ISON ) )
 
-conv_weight = Weight(raw=plc.CONV_WEIGHT, mmax=1000)
+water_1 = Container(m=lambda: water_m_1.m,closed=~plc.WATER_OPEN,out=plc.WATER_OPEN,lock=Lock(key=lambda: plc.HD_OPEN or not plc.WATER_CLOSED),max_sp=300)
+addition_1 = Container(m=lambda: hd_m_1.m,closed=plc.HD_CLOSED,out = plc.HD_OPEN,lock=Lock(key=lambda: plc.WATER_OPEN or not plc.WATER_CLOSED),max_sp=50)
+apump_1 = TOF(clk:=plc.HD_OPEN,q=plc.PUMP1_ON,pt=3000)
+apump_2 = TOF(clk:=plc.HD_OPEN,q=plc.PUMP2_ON,pt=3000)
+dwater_1 = Dosator(m=lambda: water_m_1.m, out=plc.WATER_OPEN, closed=plc.WATER_CLOSED,containers=(water_1,addition_1),lock=Lock(key=lambda: plc.WATER_OPEN or plc.HD_OPEN or not plc.MIXER_ISON))
 
-bunker1 = Container(m=lambda: cement_weight.m, out=plc.BUNKER1_OPEN, closed=plc.BUNKER1_GATECLOSE, max_sp=1000)
+retarder_1 = Retarder(m = lambda: conv_m_1.m, outs=(plc.BUNKER1_OPEN,plc.BUNKER2_OPEN),sts=(plc.BUNKER1_GATECLOSE,plc.BUNKER2_GATECLOSE))
+filler_1 = Container(m = lambda: conv_m_1.m, out=retarder_1.out(0),closed=retarder_1.closed(0),lock=Lock(key=lambda: retarder_1.lock(0)))
+filler_2 = Container(m = lambda: conv_m_1.m, out=retarder_1.out(1),closed=retarder_1.closed(1),lock=Lock(key=lambda: retarder_1.lock(1)))
+vibrator_1 = Vibrator(q=plc.VIB1_ON,containers=(plc.BUNKER1_OPEN,),weight=conv_m_1)
+vibrator_2 = Vibrator(q=plc.VIB2_ON,containers=(plc.BUNKER2_OPEN,),weight=conv_m_1)
+conveyor_1 = Dosator(m = lambda: conv_m_1.m, out=plc.CONV1_ON,closed=~plc.CONV1_ISON,containers=(filler_1,filler_2),lock=Lock(key=lambda: not plc.BUNKER1_GATECLOSE or not plc.BUNKER2_GATECLOSE))
 
-bunker2 = Container(m=lambda: hd_weight.m, out=plc.BUNKER2_OPEN, closed=plc.BUNKER2_GATECLOSE, max_sp=1000)
+conveyor_2 = Transport(ison=plc.CONV2_ISON, out=plc.CONV2_ON, pt=3000, power=plc.CONV2_ON)
 
-cement_dosator = Dosator( m=cement_weight.m, out=plc.CEMENT_OPEN, closed=plc.CEMENT_CLOSE, containers=[bunker1])
-
-hd_dosator = Dosator( m=hd_weight.m,  out=plc.HD_OPEN, closed=plc.HD_CLOSE, containers=[bunker2])
-
-water_dosator = Dosator( m=water_weight.m, out=plc.WATER_OPEN,  closed=plc.WATER_CLOSE, containers=[] )
-
-vibrator1 = Vibrator(weight=cement_weight,containers=[lambda: bunker1.out], q=plc.VIBRATOR1_ON,auto=True)
-
-vibrator2 = Vibrator( weight=hd_weight, containers=[lambda: bunker2.out],  q=plc.VIBRATOR2_ON, auto=True)
-
-vibrator3 = Vibrator( weight=cement_weight, containers=[lambda: bunker1.out], q=plc.VIBRATOR3_ON, auto=True)
-
-water_gate = Gate( closed=plc.WATER_GATECLOSE, open=plc.WATER_GATE)
-
-hd_gate = Gate( closed=plc.HD_GATECLOSE, open=plc.HD1_GATE )
-
-cement_gate = Gate( closed=plc.CEMENT_GATECLOSE,  open=plc.CEMENT_GATE)
-
-mixer_gate = Gate( closed=plc.MIXER_CLOSE, opened=plc.MIXER_ISOPEN, open=plc.MIXER_OPEN)
-
-mixer_motor = Motor( ison=plc.MIXER_ISON, on=plc.MIXER_ON, off=plc.MIXER_OFF, bell=plc.CALL_ON, powered=plc.MIXER_ON  )
-
-conv1 = Transport( ison=plc.CONV1_ISON, power=plc.CONV1_ON, hold_on=True )
-
-conv2 = Transport( ison=plc.CONV2_ISON, power=plc.CONV2_ON,  hold_on=True )
-
-conv1_gear = Gear(rot=plc.BELT1,remote=True,  out=plc.CONV1_ON)
-
-conv2_gear = Gear(rot=plc.BELT2, remote=True,out=plc.CONV2_ON)
-
-mixer = Mixer( gate=mixer_gate, motor=mixer_motor, go=False, count=1)
-
-# Аэрация
 air1 = BLINK(enable=plc.AUGER1_ON, q=plc.AIR1_ON)
 air2 = BLINK(enable=plc.AUGER2_ON, q=plc.AIR2_ON)
 
-# Насосы
-pump1 = Transport(ison=plc.PUMP1_ISON, power=plc.PUMP1_ON)
-pump2 = Transport(ison=plc.PUMP2_ISON, power=plc.PUMP2_ON)
-water_pump = Transport(power=plc.PUMPWATER_ON, ison=plc.WATERPUMP_ISON)
+ready_1 = Readiness( (dcement_1,dwater_1) )
+loaded_1= Loaded( (dcement_1,dwater_1) )
+mixer_1 = Mixer(gate=gate_1,motor=motor_1,flows=(x.q for x in (silage_1,silage_2,water_1,addition_1) ) )
 
-# Шнеки
-auger1 = Transport(ison=plc.AUGER1_ISON, power=plc.AUGER1_ON)
-auger2 = Transport(ison=plc.AUGER2_ISON, power=plc.AUGER2_ON)
+manager_1 = Manager( collected=ready_1, loaded=loaded_1,mixer=mixer_1,dosators=(dcement_1,dwater_1,conveyor_1))
 
-factory.on_emergency = tuple(x.emergency for x in (
-    cement_dosator, hd_dosator, water_dosator, mixer, 
-    conv1, conv2, bunker1, bunker2,
-    water_gate, hd_gate, cement_gate, mixer_gate
-))
+factory_1.on_mode = tuple(x.switch_mode for x in (silage_1,water_1,addition_1,filler_1,filler_2,dcement_1,dwater_1,conveyor_1))
+factory_1.on_emergency = tuple(x.emergency for x in (dcement_1,dwater_1,conveyor_1,mixer_1,manager_1))
 
-ready_1 = Readiness(rails=( 
-    cement_dosator, hd_dosator, water_dosator,
-    bunker1, bunker2
-))
+instances = (factory_1,motor_1,gate_1,mixer_1,cement_m_1,water_m_1,silage_1,silage_2,water_1,addition_1,filler_1,filler_2,dcement_1,dwater_1,conveyor_1,ready_1,loaded_1,manager_1,vibrator_1,vibrator_2,retarder_1,apump_1, apump_2, air1, air2 )
 
-loaded_1 = Loaded(rails=(
-    cement_dosator, hd_dosator, water_dosator,
-    bunker1, bunker2  
-))
-
-manager_1 = Manager(
-    collected=ready_1,
-    loaded=loaded_1, 
-    mixer=mixer,
-    dosators=(
-        cement_dosator, 
-        hd_dosator, 
-        water_dosator
-    )
-)
-
-factory.on_emergency += (manager_1.emergency, )
-
-instances = [
-    water_weight,
-    hd_weight, 
-    cement_weight,
-    conv_weight,
-    bunker1,
-    bunker2,
-    cement_dosator,
-    hd_dosator,
-    water_dosator,
-    vibrator1,
-    vibrator2, 
-    vibrator3,
-    water_gate,
-    hd_gate,
-    cement_gate,
-    mixer_gate,
-    mixer_motor,
-    conv1,
-    conv2,
-    conv1_gear,
-    conv2_gear,
-    mixer,
-    air1,
-    air2,
-    pump1,
-    pump2, 
-    water_pump,
-    auger1,
-    auger2,
-    ready_1,
-    loaded_1, 
-    manager_1
-]
-
-if platform == "linux":
-    from concrete.imitation import iMOTOR, iGATE, iVALVE, iWEIGHT
+if platform=='linux':
+  imotor_1 = iMOTOR(simple=True,on=plc.MIXER_ON,ison=plc.MIXER_ISON)
+  igate_1 = iGATE(open=plc.MIXER_OPEN,opened=plc.MIXER_OPENED,closed=plc.MIXER_CLOSED,simple=True)
+  idcement_1 = iVALVE(open=plc.CEMENT_OPEN,closed=plc.CEMENT_CLOSED)
+  idwater_1 = iVALVE(open=plc.WATER_OPEN,closed=plc.WATER_CLOSED)
+  iconveyor_1 = iMOTOR(simple=True,on=plc.CONV1_ON,ison=plc.CONV1_ISON)
+  iauger_1 = iMOTOR(simple=True,on=plc.AUGER1_ON,ison=plc.AUGER1_ISON)
+  iapump_1 = iMOTOR(simple=True,on=plc.PUMP1_ON,ison=plc.PUMP1_ISON)
+  iapump_2 = iMOTOR(simple=True,on=plc.PUMP2_ON,ison=plc.PUMP2_ISON)
+  iaddition_1 = iVALVE(open=plc.HD_OPEN,closed=plc.HD_CLOSED)
+  ifiller_1 = iVALVE(open=plc.BUNKER1_OPEN,closed=plc.BUNKER1_GATECLOSE)
+  ifiller_2 = iVALVE(open=plc.BUNKER2_OPEN,closed=plc.BUNKER2_GATECLOSE)
+  icement_m_1 = iWEIGHT(speed=100, loading=plc.AUGER1_ON,unloading=plc.CEMENT_OPEN,q=plc.CEMENT_M)
+  iwater_m_1 = iWEIGHT(speed=100, loading=lambda: plc.WATER_OPEN or plc.HD_OPEN,unloading=plc.WATER_OPEN,q=plc.WATER_M)
+  ifillers_m_1 = iWEIGHT(speed=100, loading=lambda : plc.BUNKER1_OPEN or plc.BUNKER2_OPEN,unloading=plc.CONV1_ON,q=plc.CONV_M)
     
-    # Имитация оборудования
-    imotor_1 = iMOTOR(simple=True, on=plc.MIXER_ON, ison=plc.MIXER_ISON)
-    igate_1 = iGATE(open=plc.MIXER_OPEN, opened=plc.MIXER_ISOPEN, closed=plc.MIXER_CLOSE)
-    icement_valve = iVALVE(open=plc.CEMENT_OPEN, closed=plc.CEMENT_CLOSE)
-    ihd_valve = iVALVE(open=plc.HD_OPEN, closed=plc.HD_CLOSE)
-    ibelt1 = iMOTOR(simple=True, on=plc.CONV1_ON, ison=plc.BELT1)
-    iwater_valve = iVALVE(open=plc.WATER_OPEN, closed=plc.WATER_CLOSE)
-    
-    # Имитация весов
-    icement_weight = iWEIGHT(speed=100, loading=plc.BUNKER1_OPEN, unloading=plc.CEMENT_OPEN, q=plc.CEMENT_WEIGHT)
-    ihd_weight = iWEIGHT(speed=100, loading=plc.BUNKER2_OPEN, unloading=plc.HD_OPEN, q=plc.HD_WEIGHT)
-    iwater_weight = iWEIGHT(speed=100, loading=lambda: plc.WATER_OPEN, unloading=plc.WATER_OPEN, q=plc.WATER_WEIGHT)
-    
-    instances += [imotor_1, igate_1, icement_valve, ihd_valve, iwater_valve, 
-                  icement_weight, ihd_weight, iwater_weight]
+  instances += (imotor_1,igate_1,idcement_1,idwater_1,iconveyor_1,iauger_1,iapump_1,iaddition_1,ifiller_1,ifiller_2,icement_m_1,iwater_m_1,ifillers_m_1,iapump_2)
 
-plc.run(instances=instances, ctx=globals())
+plc.run( instances=instances, ctx=globals() )
+

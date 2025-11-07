@@ -17,7 +17,7 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget {
+   <string notr="true">#centralwidget {
 	background-color: rgb(119, 118, 123);
 }
 QLabel[style=&quot;txtbtn&quot;]:enabled{background-color:green;}
@@ -33,7 +33,7 @@ border: 1px;
     <property name="geometry">
      <rect>
       <x>216</x>
-      <y>351</y>
+      <y>339</y>
       <width>130</width>
       <height>100</height>
      </rect>
@@ -76,7 +76,7 @@ QGroupBox
 </string>
     </property>
     <property name="title">
-     <string>БУНКЕР 2</string>
+     <string>ИНЕРТНЫЕ-2</string>
     </property>
    </widget>
    <widget class="Animation" name="animation">
@@ -113,7 +113,7 @@ QGroupBox
     <property name="geometry">
      <rect>
       <x>370</x>
-      <y>620</y>
+      <y>630</y>
       <width>348</width>
       <height>203</height>
      </rect>
@@ -173,7 +173,7 @@ QGroupBox
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>450</y>
+      <y>462</y>
       <width>123</width>
       <height>174</height>
      </rect>
@@ -186,12 +186,38 @@ QGroupBox
     <property name="running">
      <bool>true</bool>
     </property>
+    <widget class="QPushButton" name="pushButton_2">
+     <property name="geometry">
+      <rect>
+       <x>45</x>
+       <y>89</y>
+       <width>31</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(53, 156, 71);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../concreteimages/concrete.qrc">
+       <normaloff>:/concrete/images/power.png</normaloff>:/concrete/images/power.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>24</width>
+       <height>24</height>
+      </size>
+     </property>
+    </widget>
    </widget>
    <widget class="Animation" name="animation_12">
     <property name="geometry">
      <rect>
       <x>220</x>
-      <y>450</y>
+      <y>462</y>
       <width>123</width>
       <height>174</height>
      </rect>
@@ -209,7 +235,7 @@ QGroupBox
     <property name="geometry">
      <rect>
       <x>760</x>
-      <y>480</y>
+      <y>510</y>
       <width>247</width>
       <height>175</height>
      </rect>
@@ -225,8 +251,8 @@ QGroupBox
     <widget class="DosatorPanel" name="dosatorpanel_5">
      <property name="geometry">
       <rect>
-       <x>70</x>
-       <y>50</y>
+       <x>66</x>
+       <y>43</y>
        <width>121</width>
        <height>41</height>
       </rect>
@@ -270,12 +296,72 @@ QGroupBox
       <string>ТОК СМЕСИТЕЛЯ</string>
      </property>
     </widget>
+    <widget class="QPushButton" name="pushButton_9">
+     <property name="geometry">
+      <rect>
+       <x>1</x>
+       <y>0</y>
+       <width>101</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(237, 51, 59);
+color: rgb(255, 255, 255);
+font-size: 9pt;</string>
+     </property>
+     <property name="text">
+      <string>СТОП ЗАГРУЗКА</string>
+     </property>
+     <property name="icon">
+      <iconset theme="gfgreer">
+       <normaloff>.</normaloff>.</iconset>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_11">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>100</y>
+       <width>22</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="../concreteimages/concrete.qrc">:/concrete/images/green-led.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_10">
+     <property name="geometry">
+      <rect>
+       <x>146</x>
+       <y>0</y>
+       <width>101</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(224, 27, 36);
+font-size: 9pt;</string>
+     </property>
+     <property name="text">
+      <string>СТОП НАБОР</string>
+     </property>
+     <property name="icon">
+      <iconset theme="gfgreer">
+       <normaloff>.</normaloff>.</iconset>
+     </property>
+    </widget>
    </widget>
    <widget class="DoserPanel" name="doserpanel_2">
     <property name="geometry">
      <rect>
       <x>28</x>
-      <y>352</y>
+      <y>340</y>
       <width>130</width>
       <height>100</height>
      </rect>
@@ -318,30 +404,14 @@ QGroupBox
 </string>
     </property>
     <property name="title">
-     <string>БУНКЕР 1</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>720</x>
-      <y>660</y>
-      <width>64</width>
-      <height>64</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resourse.qrc">:/trep/resources/right.png</pixmap>
+     <string>ИНЕРТНЫЕ-1</string>
     </property>
    </widget>
    <widget class="Animation" name="animation_16">
     <property name="geometry">
      <rect>
-      <x>390</x>
-      <y>356</y>
+      <x>970</x>
+      <y>227</y>
       <width>86</width>
       <height>131</height>
      </rect>
@@ -371,6 +441,7 @@ QLabel[style=&quot;weight&quot;]
 {
 	font-size: 20pt;
 	font-weight: bold;
+border-radius: 5%;
 }
 QLabel:disabled[style=&quot;target&quot;]
 {
@@ -406,8 +477,8 @@ QGroupBox
    <widget class="Animation" name="animation_17">
     <property name="geometry">
      <rect>
-      <x>610</x>
-      <y>440</y>
+      <x>902</x>
+      <y>131</y>
       <width>84</width>
       <height>82</height>
      </rect>
@@ -421,25 +492,10 @@ QGroupBox
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="Animation" name="animation_21">
-    <property name="geometry">
-     <rect>
-      <x>530</x>
-      <y>490</y>
-      <width>42</width>
-      <height>42</height>
-     </rect>
-    </property>
-    <property name="source">
-     <url>
-      <string>qrc:/trep/resources/valve.mng</string>
-     </url>
-    </property>
-   </widget>
    <widget class="Animation" name="animation_23">
     <property name="geometry">
      <rect>
-      <x>1110</x>
+      <x>1240</x>
       <y>460</y>
       <width>113</width>
       <height>238</height>
@@ -501,26 +557,37 @@ QGroupBox
       <string>ДОЗАТОР ЦЕМЕНТА</string>
      </property>
     </widget>
-   </widget>
-   <widget class="Animation" name="animation_27">
-    <property name="geometry">
-     <rect>
-      <x>860</x>
-      <y>650</y>
-      <width>42</width>
-      <height>42</height>
-     </rect>
-    </property>
-    <property name="source">
-     <url>
-      <string>qrc:/trep/resources/valve.mng</string>
-     </url>
-    </property>
+    <widget class="QPushButton" name="pushButton_6">
+     <property name="geometry">
+      <rect>
+       <x>42</x>
+       <y>124</y>
+       <width>31</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(53, 156, 71);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../concreteimages/concrete.qrc">
+       <normaloff>:/concrete/images/power.png</normaloff>:/concrete/images/power.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>24</width>
+       <height>24</height>
+      </size>
+     </property>
+    </widget>
    </widget>
    <widget class="Animation" name="animation_28">
     <property name="geometry">
      <rect>
-      <x>1030</x>
+      <x>1173</x>
       <y>-10</y>
       <width>128</width>
       <height>408</height>
@@ -534,10 +601,10 @@ QGroupBox
     <widget class="QLabel" name="label_5">
      <property name="geometry">
       <rect>
-       <x>33</x>
+       <x>40</x>
        <y>240</y>
        <width>51</width>
-       <height>21</height>
+       <height>31</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -556,9 +623,9 @@ color: rgb(255, 255, 255);</string>
      <property name="geometry">
       <rect>
        <x>37</x>
-       <y>70</y>
+       <y>60</y>
        <width>51</width>
-       <height>21</height>
+       <height>31</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -573,11 +640,21 @@ border-radius: 5px;</string>
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
+    <widget class="DoserPanel" name="doserpanel_6">
+     <property name="geometry">
+      <rect>
+       <x>7</x>
+       <y>100</y>
+       <width>111</width>
+       <height>101</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
    <widget class="Animation" name="animation_29">
     <property name="geometry">
      <rect>
-      <x>1170</x>
+      <x>1296</x>
       <y>-10</y>
       <width>128</width>
       <height>408</height>
@@ -591,10 +668,10 @@ border-radius: 5px;</string>
     <widget class="QLabel" name="label_6">
      <property name="geometry">
       <rect>
-       <x>36</x>
+       <x>40</x>
        <y>240</y>
        <width>51</width>
-       <height>21</height>
+       <height>31</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -613,9 +690,9 @@ color: rgb(255, 255, 255);</string>
      <property name="geometry">
       <rect>
        <x>37</x>
-       <y>70</y>
+       <y>60</y>
        <width>51</width>
-       <height>21</height>
+       <height>31</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -630,21 +707,16 @@ border-radius: 5px;</string>
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-   </widget>
-   <widget class="Animation" name="animation_32">
-    <property name="geometry">
-     <rect>
-      <x>410</x>
-      <y>490</y>
-      <width>42</width>
-      <height>42</height>
-     </rect>
-    </property>
-    <property name="source">
-     <url>
-      <string>qrc:/trep/resources/valve.mng</string>
-     </url>
-    </property>
+    <widget class="DoserPanel" name="doserpanel_7">
+     <property name="geometry">
+      <rect>
+       <x>7</x>
+       <y>100</y>
+       <width>111</width>
+       <height>101</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
    <widget class="DosatorPanel" name="dosatorpanel_4">
     <property name="geometry">
@@ -744,7 +816,7 @@ background-color: rgb(61, 56, 70);
    <widget class="Animation" name="animation_18">
     <property name="geometry">
      <rect>
-      <x>1040</x>
+      <x>1180</x>
       <y>400</y>
       <width>106</width>
       <height>50</height>
@@ -759,7 +831,7 @@ background-color: rgb(61, 56, 70);
    <widget class="Animation" name="animation_19">
     <property name="geometry">
      <rect>
-      <x>1180</x>
+      <x>1303</x>
       <y>400</y>
       <width>106</width>
       <height>50</height>
@@ -774,9 +846,9 @@ background-color: rgb(61, 56, 70);
    <widget class="QLabel" name="label_10">
     <property name="geometry">
      <rect>
-      <x>1310</x>
-      <y>220</y>
-      <width>64</width>
+      <x>1283</x>
+      <y>392</y>
+      <width>60</width>
       <height>64</height>
      </rect>
     </property>
@@ -790,8 +862,8 @@ background-color: rgb(61, 56, 70);
    <widget class="Animation" name="animation_5">
     <property name="geometry">
      <rect>
-      <x>510</x>
-      <y>355</y>
+      <x>763</x>
+      <y>225</y>
       <width>86</width>
       <height>131</height>
      </rect>
@@ -805,9 +877,9 @@ background-color: rgb(61, 56, 70);
      <property name="geometry">
       <rect>
        <x>-20</x>
-       <y>40</y>
+       <y>30</y>
        <width>121</width>
-       <height>51</height>
+       <height>61</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -850,42 +922,11 @@ QGroupBox
      </property>
     </widget>
    </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>700</x>
-      <y>480</y>
-      <width>64</width>
-      <height>64</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resourse.qrc">:/trep/resources/right.png</pixmap>
-    </property>
-   </widget>
-   <widget class="Animation" name="animation_15">
-    <property name="geometry">
-     <rect>
-      <x>1030</x>
-      <y>560</y>
-      <width>64</width>
-      <height>64</height>
-     </rect>
-    </property>
-    <property name="source">
-     <url>
-      <string>qrc:/trep/resources/left.png</string>
-     </url>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_9">
     <property name="geometry">
      <rect>
-      <x>960</x>
-      <y>220</y>
+      <x>1160</x>
+      <y>390</y>
       <width>64</width>
       <height>64</height>
      </rect>
@@ -900,8 +941,8 @@ QGroupBox
    <widget class="MixerPanel" name="mixerpanel">
     <property name="geometry">
      <rect>
-      <x>760</x>
-      <y>390</y>
+      <x>770</x>
+      <y>700</y>
       <width>229</width>
       <height>71</height>
      </rect>
@@ -910,10 +951,10 @@ QGroupBox
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>30</y>
-      <width>661</width>
-      <height>141</height>
+      <x>90</x>
+      <y>80</y>
+      <width>281</width>
+      <height>81</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -931,10 +972,10 @@ font-size: 32px;</string>
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>170</y>
-      <width>661</width>
-      <height>141</height>
+      <x>430</x>
+      <y>80</y>
+      <width>281</width>
+      <height>81</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -943,10 +984,395 @@ opacity: 0.5;
 font-size: 16px;</string>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Возможные причины:&lt;br/&gt;1) Нажата кнопка аварийной остановки&lt;/p&gt;&lt;p&gt;2) Авария сетевого питания (не включено реле контроля фаз)&lt;/p&gt;&lt;p&gt;3) Превышен ток смесителя&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt; Авария сетевого питания&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>267</x>
+      <y>550</y>
+      <width>31</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(53, 156, 71);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="../concreteimages/concrete.qrc">
+      <normaloff>:/concrete/images/power.png</normaloff>:/concrete/images/power.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>24</width>
+      <height>24</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_3">
+    <property name="geometry">
+     <rect>
+      <x>998</x>
+      <y>321</y>
+      <width>30</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(44, 29, 29);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="../concreteimages/concrete.qrc">
+      <normaloff>:/concrete/images/power.png</normaloff>:/concrete/images/power.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>24</width>
+      <height>24</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_4">
+    <property name="geometry">
+     <rect>
+      <x>790</x>
+      <y>320</y>
+      <width>31</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(44, 29, 29);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="../concreteimages/concrete.qrc">
+      <normaloff>:/concrete/images/power.png</normaloff>:/concrete/images/power.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>24</width>
+      <height>24</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_5">
+    <property name="geometry">
+     <rect>
+      <x>930</x>
+      <y>160</y>
+      <width>31</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(53, 156, 71);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="../concreteimages/concrete.qrc">
+      <normaloff>:/concrete/images/power.png</normaloff>:/concrete/images/power.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>24</width>
+      <height>24</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_7">
+    <property name="geometry">
+     <rect>
+      <x>1220</x>
+      <y>193</y>
+      <width>31</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(246, 211, 45);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="../concreteimages/concrete.qrc">
+      <normaloff>:/concrete/images/power.png</normaloff>:/concrete/images/power.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>24</width>
+      <height>24</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_8">
+    <property name="geometry">
+     <rect>
+      <x>1344</x>
+      <y>193</y>
+      <width>31</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(246, 211, 45);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="../concreteimages/concrete.qrc">
+      <normaloff>:/concrete/images/power.png</normaloff>:/concrete/images/power.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>24</width>
+      <height>24</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_12">
+    <property name="geometry">
+     <rect>
+      <x>978</x>
+      <y>610</y>
+      <width>22</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="../concreteimages/concrete.qrc">:/concrete/images/red-led.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_13">
+    <property name="geometry">
+     <rect>
+      <x>870</x>
+      <y>620</y>
+      <width>31</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(153, 193, 241);
+font-size: 24px;</string>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_14">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>30</y>
+      <width>121</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(153, 193, 241);
+font-size: 24px;</string>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="DoserPanel" name="doserpanel_3">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>20</y>
+      <width>130</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>ВОДА</string>
+    </property>
+   </widget>
+   <widget class="DoserPanel" name="doserpanel_4">
+    <property name="geometry">
+     <rect>
+      <x>880</x>
+      <y>20</y>
+      <width>130</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>ХД-1</string>
+    </property>
+   </widget>
+   <widget class="DoserPanel" name="doserpanel_5">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>20</y>
+      <width>130</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>ХД-2</string>
+    </property>
+   </widget>
+   <widget class="Animation" name="animation_20">
+    <property name="geometry">
+     <rect>
+      <x>1042</x>
+      <y>131</y>
+      <width>84</width>
+      <height>82</height>
+     </rect>
+    </property>
+    <property name="source">
+     <url>
+      <string>qrc:/concrete/images/pump.mng</string>
+     </url>
+    </property>
+    <property name="running">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_11">
+    <property name="geometry">
+     <rect>
+      <x>1070</x>
+      <y>160</y>
+      <width>31</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(53, 156, 71);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="../concreteimages/concrete.qrc">
+      <normaloff>:/concrete/images/power.png</normaloff>:/concrete/images/power.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>24</width>
+      <height>24</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_15">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>460</y>
+      <width>246</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);
+border: 1px solid red;
+font: 63 14pt &quot;Ubuntu Sans&quot;;</string>
+    </property>
+    <property name="text">
+     <string>Состояние</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="Animation" name="animation_6">
+    <property name="geometry">
+     <rect>
+      <x>792</x>
+      <y>350</y>
+      <width>32</width>
+      <height>95</height>
+     </rect>
+    </property>
+    <property name="source">
+     <url>
+      <string>qrc:/concrete/water-rain.mng</string>
+     </url>
+    </property>
+    <property name="running">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="Animation" name="animation_9">
+    <property name="geometry">
+     <rect>
+      <x>998</x>
+      <y>350</y>
+      <width>32</width>
+      <height>95</height>
+     </rect>
+    </property>
+    <property name="source">
+     <url>
+      <string>qrc:/concrete/water-rain.mng</string>
+     </url>
+    </property>
+    <property name="running">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="Animation" name="animation_10">
+    <property name="geometry">
+     <rect>
+      <x>788</x>
+      <y>148</y>
+      <width>42</width>
+      <height>42</height>
+     </rect>
+    </property>
+    <property name="source">
+     <url>
+      <string>qrc:/concrete/valve.mng</string>
+     </url>
+    </property>
+   </widget>
+   <widget class="Animation" name="animation_14">
+    <property name="geometry">
+     <rect>
+      <x>714</x>
+      <y>619</y>
+      <width>114</width>
+      <height>137</height>
+     </rect>
+    </property>
+    <property name="source">
+     <url>
+      <string>qrc:/concrete/lmgate.mng</string>
+     </url>
+    </property>
+    <property name="running">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>
