@@ -17,13 +17,13 @@ if platform=='vscode':
 factory_1 = Factory()
 
 # цементное
-cement_m_1 = Weight(raw=plc.CEMENT_M, mmax=1500)
+cement_m_1 = Weight(raw=plc.CEMENT_M, mmax=1000)
 auger_1 = Container(m = cement_m_1.get_m, out = plc.AUGER_ON_1, lock=Lock(key=~plc.CEMENT_CLOSED_1),closed=~plc.AUGER_ON_1,max_sp=1000)
 auger_2 = Container(m = cement_m_1.get_m, out = plc.AUGER_ON_2, lock=Lock(key=~plc.CEMENT_CLOSED_1),closed=~plc.AUGER_ON_2,max_sp=1000)
 dcement_1 = Dosator(m = cement_m_1.get_m, closed = plc.CEMENT_CLOSED_1, out = plc.CEMENT_OPEN_1, lock=Lock(key=plc.AUGER_ON_1 or plc.AUGER_ON_2), containers=(auger_1, auger_2))
 aerator_1 = BLINK(enable=plc.AUGER_ON_1,q=plc.AIR_ON_1)
 aerator_2 = BLINK(enable=plc.AUGER_ON_2,q=plc.AIR_ON_2)
-dc_vibrator_1 = UnloadHelper(q=plc.VIB_ON_1,dosator=dcement_1,weight=cement_m_1)
+dc_vibrator_1 = UnloadHelper(q=plc.VIB_ON_6,dosator=dcement_1,weight=cement_m_1)
 
 # вода
 water_m_1 = Weight(raw=plc.WATER_M, mmax=500)
@@ -40,7 +40,7 @@ dadditions_1 = Dosator(m = additions_m_1.get_m, closed = plc.HD_CLOSED_1, out = 
 fillers_m_1 = Weight(raw=plc.CONV_M, mmax=8000)
 filler_1 = Container(m = fillers_m_1.get_m, out = plc.BUNKER_OPEN_1, lock=Lock(key=lambda: plc.CONV_ON_1 or plc.BUNKER_OPEN_2),closed=~plc.BUNKER_OPEN_1,max_sp=3000)
 filler_2 = Container(m = fillers_m_1.get_m, out = plc.BUNKER_OPEN_2, lock=Lock(key=lambda: plc.CONV_ON_1 or plc.BUNKER_OPEN_1),closed=~plc.BUNKER_OPEN_2,max_sp=3000)
-dfillers_1 = Dosator(m = fillers_m_1.get_m, closed = ~plc.CONV_ON_1, out = plc.CONV_ON_1, lock=Lock(key=lambda: plc.BUNKER_OPEN_1 or plc.BUNKER_OPEN_2 or not plc.CONV_ISON_2), containers=(filler_1,filler_2))
+dfillers_1 = Dosator(m = fillers_m_1.get_m, closed = ~plc.CONV_ISON_1, out = plc.CONV_ON_1, lock=Lock(key=lambda: plc.BUNKER_OPEN_1 or plc.BUNKER_OPEN_2 or not plc.CONV_ISON_2), containers=(filler_1,filler_2))
 
 # вибратор конвейерный
 vibrator_1 = Vibrator(q=plc.VIB_ON_5,containers=(plc.BUNKER_OPEN_1,plc.BUNKER_OPEN_2),weight=fillers_m_1)
@@ -49,15 +49,14 @@ vibrator_1 = Vibrator(q=plc.VIB_ON_5,containers=(plc.BUNKER_OPEN_1,plc.BUNKER_OP
 motor_1 = Motor(ison=plc.MIXER_ISON_1,powered = plc.MIXER_ON_1 )
 tconveyor_1 = Transport(ison=plc.CONV_ISON_2,power=plc.CONV_ON_2,out=plc.MIXER_OPEN_1)
 gate_1 = Gate(closed = plc.MIXER_CLOSED_1,opened=plc.MIXER_OPENED_1,open=tconveyor_1.set_auto  )
-mixer_1 = Mixer(gate=gate_1,motor=motor_1,flows=[ x.q for x in [auger_1,water_1,addition_1,addition_2]])
+mixer_1 = Mixer(gate=gate_1,motor=motor_1,flows=[ x.q for x in [auger_1, auger_2,water_1,addition_1,addition_2,filler_1, filler_2]]) ###
 
 ready_1 = Readiness([dcement_1,dwater_1,dadditions_1,dfillers_1,tconveyor_1])
 loaded_1 = Loaded([dcement_1,dwater_1,dadditions_1,tconveyor_1])
 
 def loading():
-  tconveyor_1.unload = True
   dadditions_1.unload = True
-  while not tconveyor_1.unloaded: yield 
+  dfillers_1.unload = True
   dcement_1.unload = True
   dwater_1.unload = True
 
@@ -66,13 +65,14 @@ manager_1 = Manager( mixer=mixer_1,collected=ready_1,loaded = loaded_1,dosators=
 factory_1.on_mode = [ x.switch_mode for x in [dcement_1,dwater_1,dadditions_1,dfillers_1] ]
 factory_1.on_emergency = [ x.emergency for x in [dcement_1,dwater_1,dadditions_1,dfillers_1,tconveyor_1,mixer_1,manager_1] ]
 
+
 instances = (factory_1, motor_1,gate_1,tconveyor_1,
             cement_m_1,auger_1, auger_2, dcement_1,
             water_m_1,water_1,dwater_1,
             additions_m_1,addition_1,addition_2,dadditions_1,
             fillers_m_1,filler_1,filler_2,dfillers_1,
             mixer_1,
-            ready_1,loaded_1,manager_1,
+            ready_1,loaded_1,manager_1, 
             vibrator_1,dc_vibrator_1,aerator_1, aerator_2)
 
 if platform=='linux':
@@ -89,8 +89,8 @@ if platform=='linux':
   idwater_1 = iVALVE(open=plc.WATER_OPEN_1,closed=plc.WATER_CLOSED_1)
   idadditions_1 = iVALVE(open=plc.HD_OPEN_1,closed=plc.HD_CLOSED_1)
   
-  icement_m_1 = iWEIGHT(speed=100,loading=plc.AUGER_ON_1 or plc.AUGER_ON_2, unloading=plc.CEMENT_OPEN_1, q = plc.CEMENT_M)
-  iwater_m_1 = iWEIGHT(speed=100,loading=plc.PUMPWATER_ON, unloading=plc.WATER_OPEN_1, q = plc.WATER_M)
+  icement_m_1 = iWEIGHT(speed=100,loading=lambda: plc.AUGER_ON_1 or plc.AUGER_ON_2, unloading=plc.CEMENT_OPEN_1, q = plc.CEMENT_M)
+  iwater_m_1 = iWEIGHT(speed=100,loading=lambda: plc.PUMPWATER_ON, unloading=plc.WATER_OPEN_1, q = plc.WATER_M)
   iadditions_m_1 = iWEIGHT(speed=100,loading=lambda: plc.PUMP_ON_1 or plc.PUMP_ON_2, unloading=plc.HD_OPEN_1, q = plc.HD_M)
   ifillers_m_1 = iWEIGHT(speed=100,loading=lambda: plc.BUNKER_OPEN_1 or plc.BUNKER_OPEN_2, unloading=plc.CONV_ON_1, q = plc.CONV_M)
     

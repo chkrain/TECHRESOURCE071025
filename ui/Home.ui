@@ -17,10 +17,7 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">#centralwidget,#Home
-{
-	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(73, 73, 73, 255), stop:1 rgba(133, 133, 133, 255));
-}
+   <string notr="true">#centralwidget,#Home{background-color: qlineargradient(spread:pad,x1:0,y1:0,x2:1, y2:1, stop:0 rgba(73, 73, 73, 255), stop:1 rgba(133, 133, 133, 255));}
 QLabel[style=&quot;txtbtn&quot;]:enabled{background-color:green;}
 QLabel[style=&quot;txtbtn&quot;]{background-color:gray;}
 QLabel[style=&quot;lvlmin&quot;]:enabled{background-color:green;}
@@ -28,27 +25,12 @@ QLabel[style=&quot;lvlmin&quot;]{background-color:gray;}
 QLabel[style=&quot;lvlmax&quot;]:enabled{background-color:red;}
 QLabel[style=&quot;lvlmax&quot;]{background-color:gray;}
 QLabel[style=&quot;warn&quot;]{background-color:red; border-radius: 15;color:yellow;font: 81 15pt &quot;Ubuntu Sans&quot;;}
-QAbstractButton:flat
-{
-	border: 1px solid gray;
-	border-radius: 4px;
-}
-QAbstractButton:flat:pressed
-{
-	background-color: green;
-}
-QAbstractButton:flat[style=&quot;open&quot;]
-{
-	image: url(:/concrete/stop.png);
-}
-QAbstractButton:flat:pressed[style=&quot;open&quot;]
-{
-	image: url(:/concrete/down.png);
-}
-QAbstractButton:flat:checked[style=&quot;open&quot;]
-{
-	image: url(:/concrete/down.png);
-}</string>
+QAbstractButton[style=&quot;bunker&quot;]{background-color: rgb(94, 92, 100);}
+QAbstractButton:flat{border: 1px solid gray;border-radius: 4px;}
+QAbstractButton:flat:pressed{background-color: green;}
+QAbstractButton:flat[style=&quot;open&quot;]{image: url(:/concrete/stop.png);}
+QAbstractButton:flat:pressed[style=&quot;open&quot;]{image: url(:/concrete/down.png);}
+QAbstractButton:flat:checked[style=&quot;open&quot;]{image: url(:/concrete/down.png);}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
@@ -411,7 +393,7 @@ QGroupBox
     <property name="geometry">
      <rect>
       <x>970</x>
-      <y>227</y>
+      <y>266</y>
       <width>86</width>
       <height>131</height>
      </rect>
@@ -679,6 +661,19 @@ border-radius: 5px;</string>
       <pixmap resource="../concreteimages/concrete.qrc">:/concrete/images/green-led.png</pixmap>
      </property>
     </widget>
+    <widget class="DoserPanel" name="doserpanel_6">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>103</y>
+       <width>110</width>
+       <height>90</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>СИЛОС-1</string>
+     </property>
+    </widget>
    </widget>
    <widget class="Animation" name="animation_29">
     <property name="geometry">
@@ -755,6 +750,19 @@ border-radius: 5px;</string>
      </property>
      <property name="pixmap">
       <pixmap resource="../concreteimages/concrete.qrc">:/concrete/images/green-led.png</pixmap>
+     </property>
+    </widget>
+    <widget class="DoserPanel" name="doserpanel_7">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>103</y>
+       <width>110</width>
+       <height>90</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>СИЛОС-2</string>
      </property>
     </widget>
    </widget>
@@ -1024,7 +1032,7 @@ font-size: 16px;</string>
     <property name="geometry">
      <rect>
       <x>998</x>
-      <y>321</y>
+      <y>360</y>
       <width>30</width>
       <height>30</height>
      </rect>
@@ -1108,7 +1116,7 @@ font-size: 16px;</string>
     <property name="geometry">
      <rect>
       <x>1219</x>
-      <y>141</y>
+      <y>190</y>
       <width>31</width>
       <height>30</height>
      </rect>
@@ -1134,7 +1142,7 @@ font-size: 16px;</string>
     <property name="geometry">
      <rect>
       <x>1343</x>
-      <y>142</y>
+      <y>190</y>
       <width>31</width>
       <height>30</height>
      </rect>
@@ -1337,8 +1345,8 @@ font: 63 14pt &quot;Ubuntu Sans&quot;;</string>
    <widget class="Animation" name="animation_9">
     <property name="geometry">
      <rect>
-      <x>998</x>
-      <y>350</y>
+      <x>999</x>
+      <y>392</y>
       <width>32</width>
       <height>95</height>
      </rect>
@@ -1618,9 +1626,9 @@ font: 63 14pt &quot;Ubuntu Sans&quot;;</string>
    <widget class="QLabel" name="label_20">
     <property name="geometry">
      <rect>
-      <x>490</x>
-      <y>880</y>
-      <width>191</width>
+      <x>920</x>
+      <y>550</y>
+      <width>240</width>
       <height>41</height>
      </rect>
     </property>
@@ -1682,8 +1690,8 @@ font: 63 14pt &quot;Ubuntu Sans&quot;;</string>
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="../resourse.qrc">
-      <normaloff>:/trep/resources/down.png</normaloff>:/trep/resources/down.png</iconset>
+     <iconset theme="wf">
+      <normaloff>.</normaloff>.</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1692,7 +1700,7 @@ font: 63 14pt &quot;Ubuntu Sans&quot;;</string>
      </size>
     </property>
     <property name="flat">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="style" stdset="0">
      <string>open</string>
@@ -1730,8 +1738,8 @@ font: 63 14pt &quot;Ubuntu Sans&quot;;</string>
    <widget class="Animation" name="animation_7">
     <property name="geometry">
      <rect>
-      <x>55</x>
-      <y>639</y>
+      <x>56</x>
+      <y>631</y>
       <width>30</width>
       <height>33</height>
      </rect>
@@ -1748,8 +1756,8 @@ font: 63 14pt &quot;Ubuntu Sans&quot;;</string>
    <widget class="Animation" name="animation_8">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>640</y>
+      <x>101</x>
+      <y>633</y>
       <width>30</width>
       <height>33</height>
      </rect>
@@ -1766,8 +1774,8 @@ font: 63 14pt &quot;Ubuntu Sans&quot;;</string>
    <widget class="Animation" name="animation_10">
     <property name="geometry">
      <rect>
-      <x>246</x>
-      <y>640</y>
+      <x>247</x>
+      <y>632</y>
       <width>30</width>
       <height>33</height>
      </rect>
@@ -1784,8 +1792,8 @@ font: 63 14pt &quot;Ubuntu Sans&quot;;</string>
    <widget class="Animation" name="animation_15">
     <property name="geometry">
      <rect>
-      <x>296</x>
-      <y>640</y>
+      <x>292</x>
+      <y>634</y>
       <width>30</width>
       <height>33</height>
      </rect>
@@ -1797,21 +1805,6 @@ font: 63 14pt &quot;Ubuntu Sans&quot;;</string>
     </property>
     <property name="running">
      <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QWebView" name="webView">
-    <property name="geometry">
-     <rect>
-      <x>380</x>
-      <y>370</y>
-      <width>270</width>
-      <height>250</height>
-     </rect>
-    </property>
-    <property name="url">
-     <url>
-      <string>https://habrastorage.org/getpro/habr/upload_files/eb7/1c4/7df/eb71c47dfaae86968fb5527f9e71360c.gif</string>
-     </url>
     </property>
    </widget>
   </widget>
@@ -1847,11 +1840,6 @@ font: 63 14pt &quot;Ubuntu Sans&quot;;</string>
    <class>RuntimeTrend</class>
    <extends>QwtPlot</extends>
    <header>pygui.runtimetrend</header>
-  </customwidget>
-  <customwidget>
-   <class>QWebView</class>
-   <extends>QWidget</extends>
-   <header location="global">QtWebKitWidgets/QWebView</header>
   </customwidget>
   <customwidget>
    <class>QwtPlot</class>
